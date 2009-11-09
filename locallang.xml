@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description>Language labels for extension 'cabag_showitem'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="crdate">Creation Date</label>
+			<label index="cruser_id">Creation User</label>
+			<label index="tstamp">Last Change</label>
+			<label index="reftitle">Ref Title:</label>
+			<label index="reftable">Ref Table:</label>
+			<label index="field">Field:</label>
+			<label index="flexpointer">Flexpointer:</label>
+			<label index="softrefkey">Softref Key:</label>
+			<label index="sorting">Sorting:</label>
+			<label index="refuid">Ref Uid:</label>
+			<label index="refstring">Ref String:</label>
+			<label index="reftothisitem">References to this item:</label>
+			<label index="reffromthisitem">References from this item:</label>
+			<label index="title">Title:</label>
+			<label index="table">Table:</label>
+			<label index="uid">Uid:</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="crdate">Erstelldatum</label>
+			<label index="cruser_id">Erstellt von</label>
+			<label index="tstamp">Letzte Änderung</label>
+			<label index="reftitle">Ref. Titel:</label>
+			<label index="reftable">Ref. Tabelle:</label>
+			<label index="field">Feld:</label>
+			<label index="flexpointer">Flexpointer:</label>
+			<label index="softrefkey">Softref Schlüssel:</label>
+			<label index="sorting">Sortierung:</label>
+			<label index="refuid">Ref. Uid:</label>
+			<label index="refstring">Ref. Text:</label>
+			<label index="reftothisitem">Referenz zu diesem Element:</label>
+			<label index="reffromthisitem">Referenz von diesem Element:</label>
+			<label index="title">Titel:</label>
+			<label index="table">Tabelle:</label>
+			<label index="uid">Uid:</label>
+		</languageKey>
+	</data>
+</T3locallang>

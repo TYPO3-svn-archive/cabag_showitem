@@ -1,0 +1,11 @@
+2009-11-09 Dimitri König  <dk@cabag.ch>
+	* version 0.0.3
+	* localized all strings
+	* added workspace title overlapping
+
+2009-11-02 Dimitri König  <dk@cabag.ch>
+	* version 0.0.2
+	* added locallang
+
+2009-11-02 Dimitri König  <dk@cabag.ch>
+	* initial code generated with kickstarter
