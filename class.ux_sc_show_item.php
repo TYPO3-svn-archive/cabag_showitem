@@ -290,6 +290,126 @@ class ux_SC_show_item extends SC_show_item {
 			// References:
 		$this->content.= $this->doc->section($GLOBALS['LANG']->sL('LLL:EXT:cabag_showitem/locallang.php:reffromthisitem', 1),$this->makeRefFrom($this->table,$this->row['uid']));
 	}	
+
+	function renderFileInfo($returnLinkTag)	{
+		global $LANG;
+
+			// Initialize object to work on the image:
+		require_once(PATH_t3lib.'class.t3lib_stdgraphic.php');
+		$imgObj = t3lib_div::makeInstance('t3lib_stdGraphic');
+		$imgObj->init();
+		$imgObj->mayScaleUp = 0;
+		$imgObj->absPrefix = PATH_site;
+
+			// Read Image Dimensions (returns false if file was not an image type, otherwise dimensions in an array)
+		$imgInfo = '';
+		$imgInfo = $imgObj->getImageDimensions($this->file);
+
+			// File information
+		$fI = t3lib_div::split_fileref($this->file);
+		$ext = $fI['fileext'];
+
+		$code = '';
+
+			// Setting header:
+		$icon = t3lib_BEfunc::getFileIcon($ext);
+		$url = 'gfx/fileicons/'.$icon;
+		$fileName = '<img src="'.$url.'" width="18" height="16" align="top" alt="" /><b>'.$LANG->sL('LLL:EXT:lang/locallang_core.php:show_item.php.file',1).':</b> '.$fI['file'];
+		if (t3lib_div::isFirstPartOfStr($this->file,PATH_site))	{
+			$code.= '<a href="../'.substr($this->file,strlen(PATH_site)).'" target="_blank">'.$fileName.'</a>';
+		} else {
+			$code.= $fileName;
+		}
+		$code.=' &nbsp;&nbsp;<b>'.$LANG->sL('LLL:EXT:lang/locallang_core.php:show_item.php.filesize').':</b> '.t3lib_div::formatSize(@filesize($this->file)).'<br />
+			';
+		if (is_array($imgInfo))	{
+			$code.= '<b>'.$LANG->sL('LLL:EXT:lang/locallang_core.php:show_item.php.dimensions').':</b> '.$imgInfo[0].'x'.$imgInfo[1].' pixels';
+		}
+		$this->content.=$this->doc->section('',$code);
+		$this->content.=$this->doc->divider(2);
+
+			// If the file was an image...:
+		if (is_array($imgInfo))	{
+
+			$imgInfo = $imgObj->imageMagickConvert($this->file,'web','346','200m','','','',1);
+			$imgInfo[3] = '../'.substr($imgInfo[3],strlen(PATH_site));
+			$code = '<br />
+				<div align="center">'.$returnLinkTag.$imgObj->imgTag($imgInfo).'</a></div>';
+			$this->content.= $this->doc->section('', $code);
+		} else {
+			$this->content.= $this->doc->spacer(10);
+			$lowerFilename = strtolower($this->file);
+
+				// Archive files:
+			if (TYPO3_OS!='WIN' && !$GLOBALS['TYPO3_CONF_VARS']['BE']['disable_exec_function'])	{
+				if ($ext=='zip')	{
+					$code = '';
+					$t = array();
+					exec('unzip -l '.$this->file, $t);
+					if (is_array($t))	{
+						reset($t);
+						next($t);
+						next($t);
+						next($t);
+						while(list(,$val)=each($t))	{
+							$parts = explode(' ',trim($val),7);
+							$code.= '
+								'.$parts[6].'<br />';
+						}
+						$code = '
+							<span class="nobr">'.$code.'
+							</span>
+							<br /><br />';
+					}
+					$this->content.= $this->doc->section('', $code);
+				} elseif($ext=='tar' || $ext=='tgz' || substr($lowerFilename,-6)=='tar.gz' || substr($lowerFilename,-5)=='tar.z')	{
+					$code = '';
+					if ($ext=='tar')	{
+						$compr = '';
+					} else {
+						$compr = 'z';
+					}
+					$t = array();
+					exec('tar t'.$compr.'f '.$this->file, $t);
+					if (is_array($t))	{
+						foreach($t as $val)	{
+							$code.='
+								'.$val.'<br />';
+						}
+
+						$code.='
+								 -------<br/>
+								 '.count($t).' files';
+
+						$code = '
+							<span class="nobr">'.$code.'
+							</span>
+							<br /><br />';
+					}
+					$this->content.= $this->doc->section('',$code);
+				}
+			} elseif ($GLOBALS['TYPO3_CONF_VARS']['BE']['disable_exec_function']) {
+				$this->content.= $this->doc->section('','Sorry, TYPO3_CONF_VARS[BE][disable_exec_function] was set, so cannot display content of archive file.');
+			}
+
+				// Font files:
+			if ($ext=='ttf')	{
+				$thumbScript = 'thumbs.php';
+				$check = basename($this->file).':'.filemtime($this->file).':'.$GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'];
+				$params = '&file='.rawurlencode($this->file);
+				$params.= '&md5sum='.t3lib_div::shortMD5($check);
+				$url = $thumbScript.'?&dummy='.$GLOBALS['EXEC_TIME'].$params;
+				$thumb = '<br />
+					<div align="center">'.$returnLinkTag.'<img src="'.htmlspecialchars($url).'" border="0" title="'.htmlspecialchars(trim($this->file)).'" alt="" /></a></div>';
+				$this->content.= $this->doc->section('',$thumb);
+			}
+		}
+
+
+			// References:
+		$this->content.= $this->doc->section($GLOBALS['LANG']->sL('LLL:EXT:cabag_showitem/locallang.php:reftothisitem', 1),$this->makeRef('_FILE',$this->file));
+	}
+
 }
 
 

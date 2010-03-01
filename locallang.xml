@@ -29,7 +29,7 @@
 			<label index="reftitle">Ref. Titel:</label>
 			<label index="reftable">Ref. Tabelle:</label>
 			<label index="field">Feld:</label>
-			<label index="flexpointer">Flexpointer:</label>
+			<label index="flexpointer">Flex. Zeiger:</label>
 			<label index="softrefkey">Softref Schlüssel:</label>
 			<label index="sorting">Sortierung:</label>
 			<label index="refuid">Ref. Uid:</label>

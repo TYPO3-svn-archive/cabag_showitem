@@ -1,3 +1,11 @@
+2009-11-25 Dimitri König  <dk@cabag.ch>
+	* version 0.0.5
+	* added translation for flexpointer
+
+2009-11-17 Dimitri König  <dk@cabag.ch>
+	* version 0.0.4
+	* added translation for fileinfo section head
+
 2009-11-09 Dimitri König  <dk@cabag.ch>
 	* version 0.0.3
 	* localized all strings

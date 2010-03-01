@@ -1,1 +1,1 @@
-Extended informations and editing features for selected elements.
+This extension adds some links to the referenced pages and rows to the show item fields.
